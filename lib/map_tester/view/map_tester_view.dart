@@ -96,39 +96,20 @@ class _MapTesterViewState extends State<MapTesterView> {
     // So we know for sure that everything is loaded and added.
     await widget.timer();
 
-    if (speed != null) {
-      _setSpeed(speed!);
-    }
 
-    if (jumpImpulse != null) {
-      _setJumpImpulse(jumpImpulse!);
-    }
   }
 
-  void _updateSpeed(double value) {
-    setState(() {
-      final newValue = (speed ?? Player.speed) + value;
-      speed = newValue;
-      _setSpeed(newValue);
-    });
-  }
 
-  void _setSpeed(double newValue) {
-    game?.player?.walkSpeed = newValue * (game?.tileSize ?? 0);
-  }
+
+
 
   void _updateJumpImpulse(double value) {
     setState(() {
       final newValue = (jumpImpulse ?? Player.jumpImpulse) + value;
       jumpImpulse = newValue;
-      _setJumpImpulse(newValue);
     });
   }
 
-  void _setJumpImpulse(double newValue) {
-    game?.player?.minJumpImpulse =
-        (game?.player?.world.gravity ?? 0) * newValue;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,14 +219,14 @@ class _MapTesterViewState extends State<MapTesterView> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              _updateSpeed(.2);
+
                             },
                             child: const Text('+'),
                           ),
                           _SpeedLabel(speed: speed),
                           ElevatedButton(
                             onPressed: () {
-                              _updateSpeed(-.2);
+
                             },
                             child: const Text('-'),
                           ),

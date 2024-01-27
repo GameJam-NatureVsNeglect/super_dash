@@ -38,41 +38,19 @@ class PlayerControllerBehavior extends Behavior<Player> {
     }
 
     // If is no walking, start walking
-    if (!parent.walking) {
-      parent.walking = true;
-      return;
-    }
+
 
     // If is walking, jump
-    if (parent.walking && parent.isOnGround) {
-      parent
-        ..jumpEffects()
-        ..jumping = true;
-      _jumpTimer = 0.04;
-      return;
-    }
 
     // If is walking and double jump is enabled, double jump
-    if (parent.walking &&
-        !parent.isOnGround &&
-        parent.hasGoldenFeather &&
-        !doubleJumpUsed) {
-      parent
-        ..doubleJumpEffects()
-        ..jumping = true;
-      _jumpTimer = 0.06;
-      doubleJumpUsed = true;
-      return;
-    }
+
   }
 
   @override
   void update(double dt) {
     super.update(dt);
 
-    if (parent.isDead && parent.jumping) {
-      parent.jumping = false;
-    }
+
 
     if (parent.isDead ||
         parent.isPlayerTeleporting ||
@@ -83,17 +61,9 @@ class PlayerControllerBehavior extends Behavior<Player> {
     if (_jumpTimer >= 0) {
       _jumpTimer -= dt;
 
-      if (_jumpTimer <= 0) {
-        parent.jumping = false;
-      }
     }
 
-    if (_jumpTimer <= 0 && parent.isOnGround && parent.walking) {
-      parent.setRunningState();
-    }
 
-    if (doubleJumpUsed && parent.isOnGround) {
-      doubleJumpUsed = false;
-    }
+
   }
 }

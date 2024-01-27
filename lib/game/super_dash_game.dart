@@ -318,7 +318,7 @@ class SuperDashGame extends LeapGame
   void onMapLoaded(LeapMap map) {
     player?.loadSpawnPoint();
     player?.loadRespawnPoints();
-    player?.walking = true;
+
     player?.spritePaintColor(Colors.white);
     player?.isPlayerTeleporting = false;
 
@@ -328,7 +328,6 @@ class SuperDashGame extends LeapGame
   void sectionCleared() {
     if (isLastSection) {
       player?.spritePaintColor(Colors.transparent);
-      player?.walking = false;
     }
 
     _loadNewSection();

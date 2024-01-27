@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame/events.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/widgets.dart';
 import 'package:leap/leap.dart';
 import 'package:super_dash/audio/audio.dart';
 import 'package:super_dash/game/game.dart';
 
-class Player extends JumperCharacter<SuperDashGame> {
+class Player extends  PhysicalEntity<SuperDashGame> with DragCallbacks {
   Player({
     required this.levelSize,
     required this.cameraViewport,
@@ -56,16 +57,6 @@ class Player extends JumperCharacter<SuperDashGame> {
     stateBehavior.state = DashState.phoenixDoubleJump;
   }
 
-  @override
-  set walking(bool value) {
-    if (!super.walking && value) {
-      setRunningState();
-    } else if (super.walking && !value) {
-      setIdleState();
-    }
-
-    super.walking = value;
-  }
 
   void setRunningState() {
     final behavior = stateBehavior;
@@ -89,8 +80,6 @@ class Player extends JumperCharacter<SuperDashGame> {
     await super.onLoad();
 
     size = Vector2.all(gameRef.tileSize * .5);
-    walkSpeed = gameRef.tileSize * speed;
-    minJumpImpulse = world.gravity * jumpImpulse;
     cameraAnchor = PlayerCameraAnchor(
       cameraViewport: cameraViewport,
       levelSize: levelSize,
@@ -223,7 +212,7 @@ class Player extends JumperCharacter<SuperDashGame> {
     final currentDashPosition = position.x;
     final isPlayerStopped = currentDashPosition == _dashPosition;
     // Player is set as walking but is not moving.
-    if (walking && isPlayerStopped) {
+    if (false && isPlayerStopped) {
       _stuckTimer ??= 1;
       _stuckTimer = _stuckTimer! - dt;
       if (_stuckTimer! <= 0) {
@@ -238,7 +227,6 @@ class Player extends JumperCharacter<SuperDashGame> {
 
   void _animateToGameOver([DashState deathState = DashState.deathFaint]) {
     stateBehavior.state = deathState;
-    super.walking = false;
     _gameOverTimer = 1.4;
   }
 
@@ -259,7 +247,6 @@ class Player extends JumperCharacter<SuperDashGame> {
 
     isPlayerRespawning = true;
     isPlayerInvincible = true;
-    walking = false;
     stateBehavior.fadeOut();
     add(
       MoveToEffect(
@@ -275,7 +262,6 @@ class Player extends JumperCharacter<SuperDashGame> {
       onComplete: () {
         isPlayerRespawning = false;
         isPlayerInvincible = false;
-        walking = true;
       },
     );
   }
@@ -287,5 +273,27 @@ class Player extends JumperCharacter<SuperDashGame> {
   void sectionCleared() {
     isPlayerTeleporting = true;
     gameRef.sectionCleared();
+  }
+
+
+  bool _isDragged = false;
+
+  @override
+  void onDragStart(DragStartEvent event) {
+    super.onDragStart(event);
+
+    _isDragged = true;
+  }
+
+
+  @override
+  void onDragUpdate(DragUpdateEvent event) => position += event.localDelta;
+
+
+  @override
+  void onDragEnd(DragEndEvent event) {
+    super.onDragEnd(event);
+    _isDragged = false;
+
   }
 }
