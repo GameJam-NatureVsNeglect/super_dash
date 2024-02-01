@@ -15,6 +15,8 @@ import 'package:super_dash/audio/audio.dart';
 import 'package:super_dash/game/game.dart';
 import 'package:super_dash/score/score.dart';
 
+import 'entities/Box.dart';
+
 bool _tsxPackingFilter(Tileset tileset) {
   return !(tileset.source ?? '').startsWith('anim');
 }
@@ -153,6 +155,16 @@ class SuperDashGame extends LeapGame
     await _addSpawners();
     _addTreeHouseFrontLayer();
     _addTreeHouseSign();
+    world.add(
+      Box()
+        ..       position=Vector2(
+          648,
+          1862,
+        )
+        ..width = 50
+        ..height = 100
+        ..anchor = Anchor.center,
+    );
 
     add(
       KeyboardListenerComponent(
