@@ -153,6 +153,16 @@ class SuperDashGame extends LeapGame
     await _addSpawners();
     _addTreeHouseFrontLayer();
     _addTreeHouseSign();
+    world.add(
+      Box()
+        ..       position=Vector2(
+          648,
+          1862,
+        )
+        ..width = 50
+        ..height = 100
+        ..anchor = Anchor.center,
+    );
 
     add(
       KeyboardListenerComponent(
