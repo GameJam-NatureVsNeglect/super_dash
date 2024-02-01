@@ -15,6 +15,8 @@ import 'package:super_dash/audio/audio.dart';
 import 'package:super_dash/game/game.dart';
 import 'package:super_dash/score/score.dart';
 
+import 'entities/Box.dart';
+
 bool _tsxPackingFilter(Tileset tileset) {
   return !(tileset.source ?? '').startsWith('anim');
 }
