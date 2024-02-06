@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:leap/leap.dart';
 import 'package:super_dash/audio/audio.dart';
+import 'package:super_dash/game/entities/Tile.dart';
 import 'package:super_dash/game/game.dart';
 import 'package:super_dash/score/score.dart';
 
@@ -165,7 +166,16 @@ class SuperDashGame extends LeapGame
         ..height = 100
         ..anchor = Anchor.center,
     );
-
+    world.add(
+      Tile_Test()
+        ..       position=Vector2(
+          748,
+          1662,
+        )
+        ..width = 50
+        ..height = 100
+        ..anchor = Anchor.center,
+    );
     add(
       KeyboardListenerComponent(
         keyDown: {

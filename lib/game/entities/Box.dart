@@ -2,12 +2,21 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:leap/leap.dart';
+import 'package:super_dash/game/game.dart';
 
-class Box extends PositionComponent with DragCallbacks  {
+import '../super_dash_game.dart';
+
+class Box extends PhysicalEntity<SuperDashGame> with DragCallbacks  {
+
+  Box() : super(static: false, collisionType: CollisionType.standard);
+
   static final _paint = Paint()..color = Colors.blue;
-
+  late final EnemyType type;
   bool _isDragged = false;
+  bool get isDragged => _isDragged;
 
   @override
   void onDragStart(DragStartEvent event) {
@@ -25,10 +34,15 @@ class Box extends PositionComponent with DragCallbacks  {
     _isDragged = false;
 
   }
-
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    type = EnemyType.ant;
+  }
 
   @override
   void render(Canvas canvas) {
+
     canvas.drawRect(size.toRect(), _paint);
   }
 }
