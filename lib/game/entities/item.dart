@@ -29,7 +29,7 @@ enum ItemType {
 class Item extends PhysicalEntity<SuperDashGame> {
   Item({
     required this.tiledObject,
-  }) : super(static: true, collisionType: CollisionType.standard);
+  }) : super(static: true);
 
   late final ItemType type;
   late final TiledObject tiledObject;
