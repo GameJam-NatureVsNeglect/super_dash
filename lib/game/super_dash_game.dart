@@ -164,7 +164,7 @@ class SuperDashGame extends LeapGame
         )
         ..width = 50
         ..height = 100
-        ..anchor = Anchor.center,
+        ..anchor = Anchor.topLeft,
     );
     world.add(
       Tile_Test()
@@ -174,7 +174,7 @@ class SuperDashGame extends LeapGame
         )
         ..width = 50
         ..height = 100
-        ..anchor = Anchor.center,
+        ..anchor = Anchor.topLeft,
     );
     add(
       KeyboardListenerComponent(

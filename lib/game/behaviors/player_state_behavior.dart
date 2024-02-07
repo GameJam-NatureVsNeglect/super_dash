@@ -199,13 +199,11 @@ class PlayerStateBehavior extends Behavior<Player> {
     _stateMap = {
       DashState.idle: SpriteAnimationComponent(
         animation: idleAnimation,
-        anchor: Anchor.center,
         position: centerPosition.clone(),
         paint: paint,
       ),
       DashState.running: SpriteAnimationComponent(
         animation: runningAnimation,
-        anchor: Anchor.center,
         position: centerPosition.clone(),
         paint: paint,
       ),

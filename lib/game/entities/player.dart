@@ -176,7 +176,7 @@ class Player extends JumperCharacter<SuperDashGame> {
       return respawn();
     }
 
-    final collisions = collisionInfo.otherCollisions ?? const [];
+    final collisions = collisionInfo.allCollisions ?? const [];
 
     if (collisions.isEmpty) return;
 

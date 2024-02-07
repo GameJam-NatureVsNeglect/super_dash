@@ -41,7 +41,6 @@ class Enemy extends PhysicalEntity<SuperDashGame> {
               '',
         ),
         super(
-          collisionType: CollisionType.standard,
           static: tiledObject.properties.byName['Fly']?.value as bool? ?? false,
         );
 
@@ -82,7 +81,6 @@ class Enemy extends PhysicalEntity<SuperDashGame> {
         SpriteAnimationComponent(
           size: Vector2.all(gameRef.tileSize),
           animation: bettleAnimation,
-          anchor: Anchor.center,
           position: spritePosition,
         ),
       );
@@ -101,7 +99,6 @@ class Enemy extends PhysicalEntity<SuperDashGame> {
         SpriteAnimationComponent(
           size: Vector2.all(gameRef.tileSize),
           animation: beeAnimation,
-          anchor: Anchor.center,
           position: spritePosition,
         ),
       );
@@ -120,7 +117,6 @@ class Enemy extends PhysicalEntity<SuperDashGame> {
         SpriteAnimationComponent(
           size: Vector2.all(gameRef.tileSize),
           animation: butterflyAnimation,
-          anchor: Anchor.center,
           position: spritePosition,
         ),
       );
@@ -139,7 +135,6 @@ class Enemy extends PhysicalEntity<SuperDashGame> {
         SpriteAnimationComponent(
           size: Vector2.all(gameRef.tileSize),
           animation: grasshopperAnimation,
-          anchor: Anchor.center,
           position: spritePosition,
         ),
       );
@@ -158,7 +153,6 @@ class Enemy extends PhysicalEntity<SuperDashGame> {
         SpriteAnimationComponent(
           size: Vector2.all(gameRef.tileSize),
           animation: antAnimation,
-          anchor: Anchor.center,
           position: spritePosition,
         ),
       );
@@ -177,7 +171,6 @@ class Enemy extends PhysicalEntity<SuperDashGame> {
         SpriteAnimationComponent(
           size: Vector2.all(gameRef.tileSize),
           animation: fireflyAnimation,
-          anchor: Anchor.center,
           position: spritePosition,
         ),
       );

@@ -8,10 +8,15 @@ import 'package:leap/leap.dart';
 import 'package:super_dash/game/game.dart';
 
 import '../super_dash_game.dart';
+import 'Tile.dart';
 
-class Box extends PhysicalEntity<SuperDashGame> with DragCallbacks  {
 
-  Box() : super(static: false, collisionType: CollisionType.standard);
+
+
+
+class Box extends  PhysicalEntity<SuperDashGame> with DragCallbacks  {
+
+  Box() : super();
 
   static final _paint = Paint()..color = Colors.blue;
   late final EnemyType type;
@@ -25,6 +30,8 @@ class Box extends PhysicalEntity<SuperDashGame> with DragCallbacks  {
     _isDragged = true;
   }
 
+
+
   @override
   void onDragUpdate(DragUpdateEvent event) => position += event.localDelta;
 
@@ -37,6 +44,8 @@ class Box extends PhysicalEntity<SuperDashGame> with DragCallbacks  {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    final status = OnIgnoreGravity();
+    add(status);
     type = EnemyType.ant;
   }
 
