@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:leap/leap.dart';
 import 'package:super_dash/game/game.dart';
 
+import '../status/IgnoreGravity.dart';
 import '../super_dash_game.dart';
 import 'Tile.dart';
 
@@ -14,9 +15,9 @@ import 'Tile.dart';
 
 
 
-class Box extends  PhysicalEntity<SuperDashGame> with DragCallbacks  {
+class Defender extends  PhysicalEntity<SuperDashGame> with DragCallbacks  {
 
-  Box() : super();
+  Defender() : super();
 
   static final _paint = Paint()..color = Colors.blue;
   late final EnemyType type;

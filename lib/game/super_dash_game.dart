@@ -16,7 +16,7 @@ import 'package:super_dash/game/entities/Tile.dart';
 import 'package:super_dash/game/game.dart';
 import 'package:super_dash/score/score.dart';
 
-import 'entities/Box.dart';
+import 'entities/Defender.dart';
 
 bool _tsxPackingFilter(Tileset tileset) {
   return !(tileset.source ?? '').startsWith('anim');
@@ -157,7 +157,7 @@ class SuperDashGame extends LeapGame
     _addTreeHouseFrontLayer();
     _addTreeHouseSign();
     world.add(
-      Box()
+      Defender()
         ..       position=Vector2(
           648,
           1862,
@@ -167,7 +167,7 @@ class SuperDashGame extends LeapGame
         ..anchor = Anchor.topLeft,
     );
     world.add(
-      Tile_Test()
+      TileMap()
         ..       position=Vector2(
           748,
           1662,
