@@ -9,12 +9,9 @@ import 'package:super_dash/game/status/IgnoreGravity.dart';
 import 'package:super_dash/game/super_dash_game.dart';
 import 'package:super_dash/game/entities/Defender.dart';
 
-
-
-class TileMap extends  PhysicalEntity<SuperDashGame>   {
+class TileMap extends PhysicalEntity<SuperDashGame> {
   static final _paint = Paint()..color = Colors.lightGreenAccent;
-  TileMap()
-      : super();
+  TileMap() : super();
 
   @override
   Future<void> onLoad() async {
@@ -22,11 +19,11 @@ class TileMap extends  PhysicalEntity<SuperDashGame>   {
     final status = OnIgnoreGravity();
     add(status);
   }
+
   @override
   void render(Canvas canvas) {
     canvas.drawRect(size.toRect(), _paint);
   }
-
 
   @override
   void update(double dt) {
@@ -38,14 +35,11 @@ class TileMap extends  PhysicalEntity<SuperDashGame>   {
 
     for (final collision in collisions) {
       if (collision is Defender) {
-        if(!collision.isDragged) {
-        collision.position.x = this.position.x;
-        collision.position.y = this.position.y;
+        if (!collision.isDragged) {
+          collision.position.x = this.position.x;
+          collision.position.y = this.position.y;
         }
       }
-
     }
-
   }
 }
-
