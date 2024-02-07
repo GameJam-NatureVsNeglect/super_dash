@@ -7,16 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:leap/leap.dart';
 import 'package:super_dash/game/game.dart';
 
-import '../status/IgnoreGravity.dart';
-import '../super_dash_game.dart';
-import 'Tile.dart';
+import 'package:super_dash/game/status/IgnoreGravity.dart';
+import 'package:super_dash/game/super_dash_game.dart';
 
-
-
-
-
-class Defender extends  PhysicalEntity<SuperDashGame> with DragCallbacks  {
-
+class Defender extends PhysicalEntity<SuperDashGame> with DragCallbacks {
   Defender() : super();
 
   static final _paint = Paint()..color = Colors.blue;
@@ -31,8 +25,6 @@ class Defender extends  PhysicalEntity<SuperDashGame> with DragCallbacks  {
     _isDragged = true;
   }
 
-
-
   @override
   void onDragUpdate(DragUpdateEvent event) => position += event.localDelta;
 
@@ -40,8 +32,8 @@ class Defender extends  PhysicalEntity<SuperDashGame> with DragCallbacks  {
   void onDragEnd(DragEndEvent event) {
     super.onDragEnd(event);
     _isDragged = false;
-
   }
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -52,8 +44,6 @@ class Defender extends  PhysicalEntity<SuperDashGame> with DragCallbacks  {
 
   @override
   void render(Canvas canvas) {
-
     canvas.drawRect(size.toRect(), _paint);
   }
 }
-

@@ -5,9 +5,9 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:leap/leap.dart';
 
-import '../status/IgnoreGravity.dart';
-import '../super_dash_game.dart';
-import 'Defender.dart';
+import 'package:super_dash/game/status/IgnoreGravity.dart';
+import 'package:super_dash/game/super_dash_game.dart';
+import 'package:super_dash/game/entities/Defender.dart';
 
 
 

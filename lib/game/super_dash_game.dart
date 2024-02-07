@@ -158,7 +158,7 @@ class SuperDashGame extends LeapGame
     _addTreeHouseSign();
     world.add(
       Defender()
-        ..       position=Vector2(
+        ..position = Vector2(
           648,
           1862,
         )
@@ -168,7 +168,7 @@ class SuperDashGame extends LeapGame
     );
     world.add(
       TileMap()
-        ..       position=Vector2(
+        ..position = Vector2(
           748,
           1662,
         )
