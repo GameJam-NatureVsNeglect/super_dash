@@ -64,6 +64,15 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+    flavorDimensions "super dash"
+    productFlavors{
+        development{
+            dimension "super dash"
+        }
+        prod{
+            dimension "super dash"
+        }
+    }
 
     buildTypes {
         release {
