@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:ui' as ui;
 
 import 'package:flame/cache.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame/sprite.dart';
 import 'package:flame/text.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/foundation.dart';
@@ -13,10 +11,9 @@ import 'package:flutter/services.dart';
 import 'package:leap/leap.dart';
 import 'package:super_dash/audio/audio.dart';
 import 'package:super_dash/game/entities/Tile.dart';
+import 'package:super_dash/game/entities/defender.dart';
 import 'package:super_dash/game/game.dart';
-import 'package:super_dash/score/score.dart';
 
-import 'entities/Defender.dart';
 
 bool _tsxPackingFilter(Tileset tileset) {
   return !(tileset.source ?? '').startsWith('anim');
@@ -39,27 +36,15 @@ class SuperDashGame extends LeapGame
           tileSize: 64,
           configuration: const LeapConfiguration(
             tiled: TiledOptions(
-              atlasMaxX: 4048,
-              atlasMaxY: 4048,
               tsxPackingFilter: _tsxPackingFilter,
               layerPaintFactory: _layerPaintFactory,
-              atlasPackingSpacingX: 4,
-              atlasPackingSpacingY: 4,
             ),
           ),
         );
 
-  static final _cameraViewport = Vector2(592, 1024);
   static const prefix = 'assets/map/';
   static const _sections = [
-    'flutter_runnergame_map_A.tmx',
-    'flutter_runnergame_map_B.tmx',
-    'flutter_runnergame_map_C.tmx',
-  ];
-  static const _sectionsBackgroundColor = [
-    (Color(0xFFDADEF6), Color(0xFFEAF0E3)),
-    (Color(0xFFEBD6E1), Color(0xFFC9C8E9)),
-    (Color(0xFF002052), Color(0xFF0055B4)),
+    'background_2.tmx',
   ];
 
   final GameBloc gameBloc;
@@ -67,7 +52,6 @@ class SuperDashGame extends LeapGame
   final AudioController audioController;
   final List<VoidCallback> _inputListener = [];
 
-  late final SpriteSheet itemsSpritesheet;
   final bool inMapTester;
 
   GameState get state => gameBloc.state;
@@ -119,22 +103,12 @@ class SuperDashGame extends LeapGame
     }
 
     if (kIsWeb && audioController.isMusicEnabled) {
-      audioController.startMusic();
+      //audioController.startMusic();
     }
-
-    camera = CameraComponent.withFixedResolution(
-      width: _cameraViewport.x,
-      height: _cameraViewport.y,
-    )..world = world;
 
     images = Images(
       prefix: prefix,
       bundle: customBundle,
-    );
-
-    itemsSpritesheet = SpriteSheet(
-      image: await images.load('objects/tile_items_v2.png'),
-      srcSize: Vector2.all(tileSize),
     );
 
     await loadWorldAndMap(
@@ -143,20 +117,16 @@ class SuperDashGame extends LeapGame
       bundle: customBundle,
       tiledMapPath: _sections.first,
     );
-    _setSectionBackground();
 
-    final player = Player(
-      levelSize: leapMap.tiledMap.size.clone(),
-      cameraViewport: _cameraViewport,
-    );
-    unawaited(
-      world.addAll([player]),
+    leapMap.position = Vector2(-leapMap.width / 2, -200);
+
+    camera = CameraComponent.withFixedResolution(
+      world: world,
+      width: tileSize * 10,
+      height: tileSize * 6,
     );
 
-    await _addSpawners();
-    _addTreeHouseFrontLayer();
-    _addTreeHouseSign();
-    world.add(
+    world..add(
       Defender()
         ..position = Vector2(
           648,
@@ -165,8 +135,8 @@ class SuperDashGame extends LeapGame
         ..width = 50
         ..height = 100
         ..anchor = Anchor.topLeft,
-    );
-    world.add(
+    )
+    ..add(
       TileMap()
         ..position = Vector2(
           748,
@@ -194,24 +164,8 @@ class SuperDashGame extends LeapGame
     );
   }
 
-  void _addTreeHouseSign() {
-    world.add(
-      TreeSign(
-        position: Vector2(
-          448,
-          1862,
-        ),
-      ),
-    );
-  }
-
-  void _addTreeHouseFrontLayer() {
-    final layer = leapMap.tiledMap.tileMap.renderableLayers.last;
-    world.add(TreeHouseFront(renderFront: layer.render));
-  }
-
   void _setSectionBackground() {
-    final colors = _sectionsBackgroundColor[state.currentSection];
+/*    final colors = _sectionsBackgroundColor[state.currentSection];
     camera.backdrop = RectangleComponent(
       size: size.clone(),
       paint: Paint()
@@ -223,59 +177,10 @@ class SuperDashGame extends LeapGame
             colors.$2,
           ],
         ),
-    );
-  }
-
-  void gameOver() {
-    gameBloc.add(const GameOver());
-    // Removed since the result didn't ended up good.
-    // Leaving in comment if we decide to bring it back.
-    // audioController.stopBackgroundSfx();
-
-    world.firstChild<Player>()?.removeFromParent();
-
-    _resetEntities();
-
-    Future<void>.delayed(
-      const Duration(seconds: 1),
-      () async {
-        await loadWorldAndMap(
-          images: images,
-          prefix: prefix,
-          bundle: customBundle,
-          tiledMapPath: _sections.first,
-        );
-        if (isLastSection || isFirstSection) {
-          _addTreeHouseFrontLayer();
-        }
-
-        if (isFirstSection) {
-          _addTreeHouseSign();
-        }
-        final newPlayer = Player(
-          levelSize: leapMap.tiledMap.size.clone(),
-          cameraViewport: _cameraViewport,
-        );
-        await world.add(newPlayer);
-
-        await newPlayer.mounted;
-        await _addSpawners();
-        overlays.add('tapToJump');
-      },
-    );
-
-    if (buildContext != null) {
-      final score = gameBloc.state.score;
-      Navigator.of(buildContext!).push(
-        ScorePage.route(score: score),
-      );
-    }
+    );*/
   }
 
   void _resetEntities() {
-    children.whereType<ObjectGroupProximityBuilder<Player>>().forEach(
-          (spawner) => spawner.removeFromParent(),
-        );
     world.firstChild<TreeHouseFront>()?.removeFromParent();
     world.firstChild<TreeSign>()?.removeFromParent();
 
@@ -285,23 +190,6 @@ class SuperDashGame extends LeapGame
     leapMap.children
         .whereType<Item>()
         .forEach((enemy) => enemy.removeFromParent());
-  }
-
-  Future<void> _addSpawners() async {
-    await addAll([
-      ObjectGroupProximityBuilder<Player>(
-        proximity: _cameraViewport.x * 1.5,
-        tileLayerName: 'items',
-        tileset: itemsTileset,
-        componentBuilder: Item.new,
-      ),
-      ObjectGroupProximityBuilder<Player>(
-        proximity: _cameraViewport.x * 1.5,
-        tileLayerName: 'enemies',
-        tileset: enemiesTileset,
-        componentBuilder: Enemy.new,
-      ),
-    ]);
   }
 
   Future<void> _loadNewSection() async {
@@ -319,16 +207,6 @@ class SuperDashGame extends LeapGame
       bundle: customBundle,
       tiledMapPath: nextSection,
     );
-
-    if (isFirstSection) {
-      _addTreeHouseSign();
-    }
-
-    if (isLastSection || isFirstSection) {
-      _addTreeHouseFrontLayer();
-    }
-
-    await _addSpawners();
   }
 
   @override
@@ -361,6 +239,7 @@ class SuperDashGame extends LeapGame
   }
 
   bool get isLastSection => state.currentSection == _sections.length - 1;
+
   bool get isFirstSection => state.currentSection == 0;
 
   void addCameraDebugger() {
@@ -371,19 +250,6 @@ class SuperDashGame extends LeapGame
         position: player.position.clone(),
       );
       world.add(cameraDebugger);
-
-      final anchor = PlayerCameraAnchor(
-        levelSize: leapMap.tiledMap.size.clone(),
-        cameraViewport: _cameraViewport,
-      );
-      cameraDebugger.add(anchor);
-      camera.follow(anchor);
-
-      final proximityBuilders =
-          descendants().whereType<ObjectGroupProximityBuilder<Player>>();
-      for (final proximityBuilder in proximityBuilders) {
-        proximityBuilder.currentReference = cameraDebugger;
-      }
 
       player.removeFromParent();
     }

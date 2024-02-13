@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
 import 'package:flame_tiled/flame_tiled.dart';
-import 'package:flutter/material.dart';
 import 'package:leap/leap.dart';
 import 'package:super_dash/game/super_dash_game.dart';
 
@@ -77,30 +75,6 @@ class Item extends PhysicalEntity<SuperDashGame> {
         SpriteAnimationComponent(
           animation: featherAnimation,
           size: size,
-        ),
-      );
-    } else {
-      add(
-        SpriteComponent(
-          size: size,
-          sprite: gameRef.itemsSpritesheet.getSpriteById(
-            (tiledObject.gid ?? 0) - gameRef.itemsTileset.firstGid!,
-          ),
-          children: [
-            SequenceEffect(
-              [
-                MoveEffect.by(
-                  -Vector2(0, gameRef.tileSize / 2),
-                  CurvedEffectController(.8, Curves.easeIn),
-                ),
-                MoveEffect.by(
-                  Vector2(0, gameRef.tileSize / 2),
-                  CurvedEffectController(.8, Curves.easeOut),
-                ),
-              ],
-              infinite: true,
-            ),
-          ],
         ),
       );
     }
