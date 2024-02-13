@@ -58,11 +58,6 @@ dependency_overrides:
       url: https://github.com/flame-engine/flame.git
       ref: main
       path: packages/flame_tiled
-  leap:
-    git:
-      url: https://github.com/VeryGoodOpenSource/leap.git
-      ref: vgv
-      path: packages/leap
 
 flutter:
   uses-material-design: true

@@ -12,7 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:leap/leap.dart';
 import 'package:super_dash/audio/audio.dart';
+import 'package:super_dash/game/entities/Tile.dart';
 import 'package:super_dash/game/game.dart';
+
+import 'entities/Defender.dart';
 
 bool _tsxPackingFilter(Tileset tileset) {
   return !(tileset.source ?? '').startsWith('anim');
@@ -125,6 +128,30 @@ class SuperDashGame extends LeapGame
       height: tileSize * 6,
     );
 
+
+    await _addSpawners();
+    _addTreeHouseFrontLayer();
+    _addTreeHouseSign();
+    world.add(
+      Defender()
+        ..position = Vector2(
+          648,
+          1862,
+        )
+        ..width = 50
+        ..height = 100
+        ..anchor = Anchor.topLeft,
+    );
+    world.add(
+      TileMap()
+        ..position = Vector2(
+          748,
+          1662,
+        )
+        ..width = 50
+        ..height = 100
+        ..anchor = Anchor.topLeft,
+    );
     add(
       KeyboardListenerComponent(
         keyDown: {
