@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:flame/cache.dart';
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
-import 'package:flame/sprite.dart';
 import 'package:flame/text.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/foundation.dart';
@@ -13,9 +11,9 @@ import 'package:flutter/services.dart';
 import 'package:leap/leap.dart';
 import 'package:super_dash/audio/audio.dart';
 import 'package:super_dash/game/entities/Tile.dart';
+import 'package:super_dash/game/entities/defender.dart';
 import 'package:super_dash/game/game.dart';
 
-import 'entities/Defender.dart';
 
 bool _tsxPackingFilter(Tileset tileset) {
   return !(tileset.source ?? '').startsWith('anim');
@@ -128,11 +126,7 @@ class SuperDashGame extends LeapGame
       height: tileSize * 6,
     );
 
-
-    await _addSpawners();
-    _addTreeHouseFrontLayer();
-    _addTreeHouseSign();
-    world.add(
+    world..add(
       Defender()
         ..position = Vector2(
           648,
@@ -141,8 +135,8 @@ class SuperDashGame extends LeapGame
         ..width = 50
         ..height = 100
         ..anchor = Anchor.topLeft,
-    );
-    world.add(
+    )
+    ..add(
       TileMap()
         ..position = Vector2(
           748,

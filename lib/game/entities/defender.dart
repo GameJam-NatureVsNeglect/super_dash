@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +5,6 @@ import 'package:leap/leap.dart';
 import 'package:super_dash/game/game.dart';
 
 import 'package:super_dash/game/status/IgnoreGravity.dart';
-import 'package:super_dash/game/super_dash_game.dart';
 
 class Defender extends PhysicalEntity<SuperDashGame> with DragCallbacks {
   Defender() : super();
@@ -16,6 +12,7 @@ class Defender extends PhysicalEntity<SuperDashGame> with DragCallbacks {
   static final _paint = Paint()..color = Colors.blue;
   late final EnemyType type;
   bool _isDragged = false;
+  @override
   bool get isDragged => _isDragged;
 
   @override

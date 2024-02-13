@@ -23,7 +23,6 @@ class Player extends JumperCharacter<SuperDashGame> {
   final Vector2 cameraViewport;
   late Vector2 spawn;
   late List<Vector2> respawnPoints;
-  late final PlayerCameraAnchor cameraAnchor;
   late final PlayerStateBehavior stateBehavior =
       findBehavior<PlayerStateBehavior>();
 
@@ -91,17 +90,9 @@ class Player extends JumperCharacter<SuperDashGame> {
     size = Vector2.all(gameRef.tileSize * .5);
     walkSpeed = gameRef.tileSize * speed;
     minJumpImpulse = world.gravity * jumpImpulse;
-    cameraAnchor = PlayerCameraAnchor(
-      cameraViewport: cameraViewport,
-      levelSize: levelSize,
-      showCameraBounds: gameRef.inMapTester,
-    );
 
-    add(cameraAnchor);
     add(PlayerControllerBehavior());
     add(PlayerStateBehavior());
-
-    gameRef.camera.follow(cameraAnchor);
 
     loadSpawnPoint();
     loadRespawnPoints();
@@ -142,7 +133,6 @@ class Player extends JumperCharacter<SuperDashGame> {
       _gameOverTimer = _gameOverTimer! - dt;
       if (_gameOverTimer! <= 0) {
         _gameOverTimer = null;
-        gameRef.gameOver();
       }
       return;
     }
@@ -176,7 +166,7 @@ class Player extends JumperCharacter<SuperDashGame> {
       return respawn();
     }
 
-    final collisions = collisionInfo.allCollisions ?? const [];
+    final collisions = collisionInfo.allCollisions;
 
     if (collisions.isEmpty) return;
 
